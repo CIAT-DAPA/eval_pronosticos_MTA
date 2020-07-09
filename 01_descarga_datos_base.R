@@ -37,14 +37,25 @@ variables_suelo <- c("BLDFIE","CLYPPT","SNDPPT","CRFVOL","ORCDRC","WWP","AWCh1",
 profundidades <- c("sl1", "sl2", "sl3", "sl4", "sl5")  # 60cm
 
 # Datos de localidad
-localidad <- "jalapa"
-latitud <- 13.9
-longitud <- -86.0
-altitud <- 677
+#localidad <- "jalapa"
+#latitud <- 13.9
+#longitud <- -86.0
+#altitud <- 677
 
 #Descarga de datos crudos
 datos_clima_crudos <- get_data_nasapower(variables_clima, fecha_inicial, fecha_final, latitud, longitud)
 datos_suelo_crudos <- get_data_soilgrids(variables_suelo, latitud, longitud, profundidades)
+
+
+estaciones_ineter <- read_csv("data/data_ineter_temp.csv")
+
+nasa_raw <- estaciones_ineter %>% 
+  mutate(nasa_power_raw = map2(lat, lon, ~get_data_nasapower(variables_clima, fecha_inicial, fecha_final, .x, .y)))
+
+
+
+
+
 
 
 
